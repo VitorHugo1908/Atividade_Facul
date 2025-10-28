@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Define a codificação de caracteres para suportar o português -->
+    <meta charset="UTF-8">
+    <!-- Requisito: Responsividade - Configura a viewport para mobile-first -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Requisito: SEO e Descoberta - Meta tags otimizadas para busca -->
+    <meta name="description" content="Plataforma de gestão completa para ONGs, integrando projetos, voluntariado e captação de recursos com foco em alto desempenho e acessibilidade.">
+    <meta name="keywords" content="ONG, Voluntariado, Doações, Projetos Sociais, Terceiro Setor, Acessibilidade, WCAG, SPA">
+    <!-- Título da página -->
+    <title>Exercicio Prático 1</title>
+    <!--Link para o css-->
+    <link rel="stylesheet" href="ONGs.css">
+
+    <!-- Carregamento do Tailwind CSS para utilitários e Design System -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!--
+    BLOCO JAVASCRIPT: Configuração do Design System (Requisito Obrigatório)
+    Este script customiza o Tailwind para atender à paleta de cores e espaçamento.
+    -->
+    <script src="ONGs.js"></script>
+
+    <!--
+    BLOCO CSS: Estilos Avançados e Customizados (Simulando styles.css)
+    Contém CSS que não é facilmente definido por utilitários do Tailwind (ex: estados, acessibilidade).
+    -->
+
+</head>
+
+<!--
+BLOCO HTML: Estrutura Semântica (Simulando index.html)
+Aplica HTML5 na criação de estruturas semânticas complexas (header, nav, main, footer, article, section).
+-->
+<body class="bg-ong-neutral-100 font-sans text-ong-neutral-800" onload="initApp();">
+    
+    <!-- Barra de Carregamento (Requisito: Desempenho) -->
+    <div id="loading-bar" style="width: 0%;"></div>
+
+    <!-- Cabeçalho (Header) Semântico -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <!-- Contêiner principal para a navegação -->
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo/Marca, com foco na acessibilidade (aria-label) -->
+            <a href="#" onclick="renderContent('institucional'); return false;" class="text-3xl font-extrabold text-ong-primary" aria-label="Voltar para a Página Inicial">Impacto ONG</a>
+            
+            <!-- Requisito: Navegação Sofisticada - Links para Desktop (Usa Flexbox) -->
+            <nav id="nav-desktop" class="hidden lg:flex space-x-lg items-center" aria-label="Navegação Principal">
+                <a href="#institucional" onclick="renderContent('institucional'); return false;" class="text-ong-neutral-800 hover:text-ong-secondary transition-colors font-medium">Institucional</a>
+                <a href="#projetos" onclick="renderContent('projetos'); return false;" class="text-ong-neutral-800 hover:text-ong-secondary transition-colors font-medium">Projetos</a>
+                <a href="#voluntariado" onclick="renderContent('voluntariado'); return false;" class="text-ong-neutral-800 hover:text-ong-secondary transition-colors font-medium">Voluntariado</a>
+                <!-- Botão Call to Action (CTA) para Doação -->
+                <a href="#doar" onclick="renderContent('doacao'); return false;" class="bg-ong-primary text-white px-md py-sm rounded-lg hover:bg-ong-success transition-colors font-bold" role="button">Doar Agora</a>
+                <!-- Requisito: Acessibilidade - Toggle de Contraste -->
+                <button id="contrast-toggle" class="p-sm rounded-lg text-ong-neutral-800 hover:bg-ong-neutral-100" aria-label="Alternar Contraste Alto" onclick="toggleContrast()">
+                    <!-- Ícone SVG de Sol/Lua -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zM12 7a5 5 0 010 10c-1.396 0-2.671-.482-3.673-1.28l1.414-1.414A3 3 0 0012 14v-7z" /></svg>
+                </button>
+            </nav>
+            
+            <!-- Requisito: Navegação Sofisticada - Menu Hamburguer para mobile -->
+            <button id="menu-button" class="lg:hidden p-sm rounded-lg text-ong-neutral-800 hover:bg-ong-neutral-100" aria-label="Abrir Menu Mobile">
+                <!-- Ícone SVG de Hamburguer -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+            </button>
+        </div>
+        
+        <!-- Menu Mobile Expandido (inicialmente hidden) -->
+        <nav id="mobile-menu" class="hidden lg:hidden bg-white shadow-inner p-md space-y-md" aria-label="Menu Mobile">
+            <a href="#institucional" onclick="renderContent('institucional'); return false;" class="block text-ong-neutral-800 hover:text-ong-secondary transition-colors p-sm rounded-md">Institucional</a>
+            <a href="#projetos" onclick="renderContent('projetos'); return false;" class="block text-ong-neutral-800 hover:text-ong-secondary transition-colors p-sm rounded-md">Projetos</a>
+            <a href="#voluntariado" onclick="renderContent('voluntariado'); return false;" class="block text-ong-neutral-800 hover:text-ong-secondary transition-colors p-sm rounded-md">Voluntariado</a>
+            <a href="#doar" onclick="renderContent('doacao'); return false;" class="block bg-ong-primary text-white text-center px-md py-sm rounded-lg hover:bg-ong-success transition-colors font-bold">Faça uma Doação</a>
+            <button class="w-full text-left p-sm rounded-md hover:bg-ong-neutral-100 text-ong-neutral-800" onclick="toggleContrast()">Alternar Contraste Alto</button>
+        </nav>
+    </header>
+
+    <!-- Estrutura Principal (Main) Semântica e Container do SPA -->
+    <main id="app-container" class="container mx-auto px-4 py-lg">
+        
+        <!-- Requisito: Simulação de Ambiente Profissional - Seleção de Perfil -->
+        <section class="mb-xl bg-ong-neutral-100 p-lg rounded-xl shadow-inner text-center border-t-4 border-ong-secondary">
+            <h2 class="text-2xl font-bold mb-md">Simulação de Perfil (Persona)</h2>
+            <p class="text-sm mb-md text-gray-600">Alterne para testar as funcionalidades exclusivas de cada perfil.</p>
+            <!-- Uso de Flexbox para alinhamento horizontal dos botões de perfil -->
+            <div class="flex flex-wrap justify-center gap-sm">
+                <!-- Botões que chamam a função JS de alteração de perfil -->
+                <button onclick="changeProfile('doador')" class="btn-profile bg-ong-secondary text-white hover:bg-blue-600">Doador/Apoiador</button>
+                <button onclick="changeProfile('voluntario')" class="btn-profile bg-ong-info text-white hover:bg-indigo-600">Voluntário</button>
+                <button onclick="changeProfile('admin')" class="btn-profile bg-ong-danger text-white hover:bg-red-600">Administrador</button>
+            </div>
+        </section>
+
+        <!-- Container onde o conteúdo dinâmico (SPA) será renderizado -->
+        <div id="content-dynamic">
+            <!-- O JS injetará o conteúdo aqui -->
+        </div>
+    </main>
+
+    <!-- Rodapé (Footer) Semântico -->
+    <footer class="bg-ong-neutral-800 text-white p-xl mt-xl">
+        <div class="container mx-auto">
+            <!-- Requisito: Grid - Layout do Rodapé (Grid responsivo) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+                <!-- Coluna 1: Informações da ONG -->
+                <div>
+                    <h4 class="font-bold mb-md text-xl">Impacto ONG</h4>
+                    <p class="text-sm text-gray-400">Ampliando o impacto social através da tecnologia e transparência.</p>
+                </div>
+                <!-- Coluna 2: Navegação Rápida -->
+                <div>
+                    <h4 class="font-bold mb-md">Links</h4>
+                    <ul class="space-y-sm text-sm">
+                        <li><a href="#" onclick="renderContent('institucional'); return false;" class="hover:text-ong-primary transition-colors">Nossa Missão</a></li>
+                        <li><a href="#" onclick="renderContent('projetos'); return false;" class="hover:text-ong-primary transition-colors">Ver Projetos</a></li>
+                    </ul>
+                </div>
+                <!-- Coluna 3: Transparência -->
+                <div>
+                    <h4 class="font-bold mb-md">Transparência</h4>
+                    <ul class="space-y-sm text-sm">
+                        <li><a href="#" class="hover:text-ong-primary transition-colors">Relatórios Anuais</a></li>
+                        <li><a href="#" class="hover:text-ong-primary transition-colors">Central de Documentos</a></li>
+                    </ul>
+                </div>
+                <!-- Coluna 4: Contato e Redes Sociais (Flexbox) -->
+                <div>
+                    <h4 class="font-bold mb-md">Contato</h4>
+                    <p class="text-sm text-gray-400">Email: contato@impactoong.org</p>
+                    <div class="flex space-x-md mt-sm text-2xl">
+                        <!-- Ícones Emoji para Redes Sociais (Garantindo que não há recursos externos) -->
+                        <a href="#" aria-label="Facebook" class="hover:text-ong-secondary transition-colors">&#x1F4F1;</a>
+                        <a href="#" aria-label="Instagram" class="hover:text-ong-secondary transition-colors">&#x1F4F7;</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Direitos Autorais -->
+            <div class="text-center text-xs text-gray-600 mt-xl pt-md border-t border-gray-700">
+                &copy; 2025 Impacto ONG. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Requisito: Componentes de Feedback - Modal simples (substitui o alert()) -->
+    <div id="modal-feedback" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[1000]" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="bg-white p-lg rounded-xl max-w-sm w-full shadow-2xl">
+            <!-- Título dinâmico do modal -->
+            <h3 id="modal-title" class="text-2xl font-bold mb-md">Ação Realizada</h3>
+            <!-- Mensagem dinâmica do modal -->
+            <p id="modal-message" class="text-gray-700 mb-lg">Mensagem de feedback.</p>
+            <!-- Botão para fechar o modal -->
+            <button onclick="closeModal()" class="bg-ong-primary text-white px-md py-sm rounded-lg hover:bg-ong-success font-semibold w-full">Fechar</button>
+        </div>
+    </div>
+
+    <!--
+    BLOCO JAVASCRIPT: Funcionalidades Interativas e Dinâmicas (Simulando script.js)
+    Contém a lógica da aplicação, separada por funcionalidade.
+    -->
+    <script src="ONGs.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+/* Requisito: Acessibilidade - Foco claro para navegação por teclado (WCAG 2.1 AA) */
+:focus {
+    /* Define um contorno visível e com alto contraste */
+    outline: 3px solid theme('colors.ong-info');
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+/* Barra de Carregamento (Requisito: Desempenho < 5s) */
+#loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background-color: theme('colors.ong-warning'); /* Cor de destaque para o progresso */
+    transition: width 0.5s ease-out; /* Transição suave para simular o carregamento */
+    z-index: 9999;
+}
+/* Requisito: Acessibilidade - Estilos para Modo de Alto Contraste (manipulados via JS) */
+.high-contrast {
+    /* Força o fundo e texto para alto contraste */
+    background-color: black !important;
+    color: yellow !important;
+}
+.high-contrast .bg-white,
+.high-contrast .bg-ong-neutral-100 {
+    /* Ajusta o fundo dos componentes internos */
+    background-color: black !important;
+    border: 1px solid yellow !important;
+    color: yellow !important;
+}
+.high-contrast button:not(#contrast-toggle),
+.high-contrast a:not(#contrast-toggle) {
+    /* Ajusta botões e links */
+    background-color: black !important;
+    color: yellow !important;
+    border: 2px solid yellow !important;
+}
+/* Estilos de Componentes Comuns (Design System) */
+
+/* Estilos de Botões (Requisito: Botões com estados visuais) */
+.btn-primary {
+    /* Aplica utilitários Tailwind para padding, border-radius, fonte e transições */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition-property: all;
+    transition-duration: 200ms;
+}
+.btn-preset {
+    /* Botões de atalho para doação, usando Flexbox */
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 0.5rem;
+    transition-property: color, background-color;
+    color: #1F2937;
+}
+.btn-preset:hover {
+    background-color: #F3F4F6;
+}
+
+/* Estilos de Formulário (Requisito: Formulários estilizados) */
+.input-styled {
+    /* Input com largura total, padding, borda e foco personalizado */
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 0.5rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-styled:focus {
+    border-color: #3B82F6; /* Example color for ong-secondary */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* Example for ring-ong-secondary with opacity */
+    outline: none;
+}
+/* Estilos de Badges (Requisito: Badges e Tags) */
+.badge {
+    /* Define o visual da tag de categorização */
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 600;   /* font-semibold */
+    padding-left: 0.5rem;  /* px-2 */
+    padding-right: 0.5rem; /* px-2 */
+    padding-top: 0.125rem; /* py-0.5 */
+    padding-bottom: 0.125rem; /* py-0.5 */
+    border-radius: 9999px; /* rounded-full */
+    text-transform: uppercase; /* uppercase */
+}
