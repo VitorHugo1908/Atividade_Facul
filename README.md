@@ -1,0 +1,1 @@
+- Tenho como objetivo esse README para mostrar uma platafomra simples que eu desenvolvi com o objetivo de Desenvolver uma plataforma web completa e profissional que permita que ONGs gerenciem suas atividades
